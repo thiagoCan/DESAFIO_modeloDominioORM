@@ -1,12 +1,16 @@
 package com.projeto.demo.entities;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -24,6 +28,12 @@ public class Atividade {
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")
 	private Categoria categoria;
+	
+	@ManyToMany
+	@JoinTable(name = "tb_atividade_participante",
+				joinColumns = @JoinColumn(name = "atividade_id"),
+				inverseJoinColumns =  @JoinColumn(name = "participante_id"))
+	private Set<Participante> participantes = new HashSet<>();
 	
 	public Atividade() {
 	}
@@ -65,6 +75,19 @@ public class Atividade {
 
 	public void setPreco(Double preco) {
 		this.preco = preco;
+	}
+
+	
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	public Set<Participante> getParticipantes() {
+		return participantes;
 	}
 
 	@Override
